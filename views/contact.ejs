@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+   <title>Contact</title>
+   <link rel='stylesheet' href='/Content/styleshh.css' />
+   <link rel='stylesheet' href='/Content/styles.css' />
+ 
+   <script src="/public/Scripts/modernizr.custom.65897.js"></script>
+   <script type="text/javascript" src="/public/Scripts/jquery-2.2.0.min.js"></script>
+   
+   <style type="text/css" >
+    *{margin:0;padding: 0;list-style: none;text-decoration: none;}
+    #nav{width: 800px; height: 43px;background: #384567; margin: 0 0 0 0;}
+    ul{background: #384567}
+    ul li{float:left; display:block; height: 40px; line-height: 40px; font-size:20px; padding: 0 12px; position: relative;}
+    ul li:hover{background: #388adc;}
+    ul li ul li{float: none;text-align:left;}
+    /*display：none;*/
+    ul li ul{position: absolute;top:40px;left: 0; display: none;}
+    ul li ul li:hover{background: red;color:white;text-align:left;}
+    /*display:block;*/
+    ul li:hover ul{display: block;}
+    
+    a {text-decoration: none;}
+    a:link {color: #FFFFFF; text-decoration: none} /*  */
+    a:visited {color: #FFFFFF; text-decoration: none} /*  */
+    a:hover {color: #FFFFFF; text-decoration: underline;} /*  */
+    a:active {color: #FF0000; text-decoration: underline} /*   */
+   .btn48_{
+	width:250px;
+	height:30px;
+	background:url("Assets/images/bg48.jpg") repeat-x left top;	
+	padding-bottom:3px;padding-top:3px;
+	background-color: transparent;
+	border:none;
+	text-align:center;
+    }
+  </style>
+
+
+ <script type="text/javascript">
+   function mClear() {
+	  document.getElementById("fname").value="";
+	  document.getElementById("lname").value="";
+	  document.getElementById("addrinput").value="";
+	  document.getElementById("cityinput").value="";
+	  document.getElementById("zipinput").value="";
+	  document.getElementById("provinceinput").value="";
+	  document.getElementById("age").value="";
+	  document.getElementById("pw1").value="";
+	  document.getElementById("pw2").value="";
+	  document.getElementById("emailbox").value="";
+	
+   }
+   function validateLength() {
+      //alert("before ---- enter for ------");
+	  var mflg="t";
+      for (var ii=0; ii < 3; ii++) {
+	     //var unInput = document.getElementById("fname");
+         //var errorDiv = document.getElementById("firstnameError");
+
+	     var unInput=document.getElementById("input_"+ii);
+		 var errorDiv=document.getElementById("error_"+ii);
+
+	     try {
+            //if (unInput.value.length < 4) {
+            if (/.{1,}/.test(unInput.value) === false) {
+			   mflg="f";
+               throw "Each input box must be entered and cannot be empty";//"Username must be at least 4 characters long";
+            } else {
+			
+			   //if (/\W/.test(unInput.value) === true) {
+               //   throw "Username must contain only letters and numbers";
+               //}
+			   switch (ii) {
+                  case 4:
+				     //postal code 
+					 
+					 var regex = new RegExp(/^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ]( )?\d[ABCEGHJKLMNPRSTVWXYZ]\d$/i);
+					 if (regex.test(unInput.value) == false) {
+					     mflg="f";
+                         throw "Zip code out of specification,Input Valid Postal Code";
+                     }
+
+           	         break;			   
+       	          case 5:
+				     var mProvince =",QC,ON,MN,SK,AB,BC,";
+					 
+					 if (mProvince.indexOf(unInput.value) == -1) {
+					     mflg="f";
+                         throw "Province must be one of QC,ON,MN,SK,AB,BC";
+                     }
+					 
+           	         break;
+       	          case 6:
+				     var mage= parseInt(unInput.value);
+					 if(isNaN(mage)){
+					    mflg="f";
+					    throw "Please fill in the correct number format";
+					 }else{
+					    if(mage >18){ 
+						}else{
+						   mflg="f";
+   					       throw "Age has to be at least 18 yrs. old";
+						}
+					 }
+           	         break;
+       	          case 7:
+				     var reg = /^(?=.*[A-Z])(?=.*\d)[^]{6,}$/
+                     if(unInput.value.match(reg)){
+                        //alert("The password is valid!");
+                     }else{
+					    mflg="f";
+   					    throw "Password must contain at least 6 characters and must contain at least one number and one uppercase character";
+					 }
+
+           	         break;
+       	          case 8:
+				     var reg = /^(?=.*[A-Z])(?=.*\d)[^]{6,}$/
+                     if(unInput.value.match(reg)){
+                        //alert("The password is valid!");
+						var unInput7=document.getElementById("input_7");
+						if(unInput.value != unInput7.value){
+                           mflg="f";
+   					       throw "An error occurred: 2 passwords entered are different";
+						}
+                     }else{
+					    mflg="f";
+   					    throw "Password must contain at least 6 characters and must contain at least one number and one uppercase character";
+					 }
+				     
+           	         break;
+       	          case 9:
+				     var ss = /^[A-Za-zd0-9]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$/;
+                     if(!ss.test(unInput.value)){
+					     mflg="f";
+   					     throw "E-mail format is incorrect";
+					 }
+           	         break;
+                  
+					 
+			      default: 
+				     break;
+				  }
+			}
+
+            //alert("Hi,mflg="+mflg+"---"+ii);
+
+            unInput.style.background = "";
+            errorDiv.style.display = "none";
+            errorDiv.innerHTML = "";
+         }
+         catch(msg) {  //TypeError: Cannot set properties of undefined (setting 'background')
+		               //TypeError: Cannot set properties of undefined (setting 'display')
+            errorDiv.style.display = "block";
+            errorDiv.innerHTML = msg;
+            unInput.style.background = "rgb(255,233,233)";
+         }         
+
+		 
+	  }//   for --- end 
+      var mss0="'Dear Mr. ";
+
+      //alert("out--- for----");
+	  if(mflg=="t"){
+
+        var unInput=document.getElementById("input_0");
+        mss0 +=unInput.value;
+        var unInput=document.getElementById("input_1");
+        mss0 =mss0+' '+ unInput.value;
+
+
+
+        var myss =mss0+ ',Thank you for leaving us your valuable information, we will discuss it seriously, and in due course, let you know the results of our discussion.';
+
+ 	        alert(myss);
+	  }
+	  
+	  
+
+   } 
+   
+   function startRequest() {
+	  validateLength();
+   }
+ </script>
+</head>
+
+<body>
+     
+   <div><article style="position: relative;z-index:800;width:800px;top:10px;">
+      <h2 style="position: relative;z-index:800;width: 800px;text-align: center;color:blue">Contact Me</h2>
+      <p2 style="color:black;">Please fill out the form below, especially the email address should be correct</p2>
+      <form>
+         <fieldset class="text" style="width:780px;margin-top: 10px;">
+		 
+            <label for="input_0" style="text-align: left;">First name:</label>
+            <input type="text" id="input_0" maxlength="30" style="width:300px;" />
+            <p id="error_0" class="errorMsg"></p>
+			
+            <label for="input_1" style="text-align: left;">Last name:</label>
+            <input type="text" id="input_1" style="width:300px;" />
+            <p id="error_1" class="errorMsg"></p>
+
+			
+            <label for="input_2" style="text-align: left;">Email Address:</label>
+            <input type="email" id="input_2" style="width:300px;" />
+			<p id="error_2" class="errorMsg"></p>
+			
+            <label for="input_3" style="text-align: left;"> Enter your message:</label>
+            <input type="text" id="input_3" style="width:750px;height: 120px;text-align: left;" />
+			<p id="error_3" class="errorMsg"></p>
+         </fieldset>
+
+      </form>
+
+      <div class="controls" style="width:600px;height:25px; float:left; ">
+		  <!--  -->
+		  
+		  <a id="login_register" class="btn48_" href="#" onclick="return startRequest()" onmouseover="this.style.backgroundPosition='left -20px';this.style.color='#d7bff2';" onmouseout="this.style.backgroundPosition='left top';this.style.color='#8bf8ff';" style="float:left; margin:10px 0px 0px 30px; font-size:20px;"/>submit</a>
+		  
+		  <a id="login_register" class="btn48_" href="/home"  onmouseover="this.style.backgroundPosition='left -20px';this.style.color='#d7bff2';" onmouseout="this.style.backgroundPosition='left top';this.style.color='#8bf8ff';" style="float:left; margin:10px 0px 0px 30px; font-size:20px;"/>Back to Hoome</a>
+
+	  </div>
+		 
+         
+		 
+		 
+      
+      <section id="profile">
+         <h3>Profile</h3>
+         <div id="usernameSection">
+            <h4>Username: </h4>
+            <p id="profileUsername"></p>
+         </div>
+         <div id="emailSection">
+            <h4>Email address</h4>
+            <p id="profileEmail"></p>
+         </div>
+         <div id="lodgingsSection">
+            <h4>Preferred Lodgings</h4>
+            <ul id="profileLodgings"></ul>
+         </div>
+      </section>
+   </article></div>
+   
+</body>
+</html>
